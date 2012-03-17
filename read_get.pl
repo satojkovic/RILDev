@@ -4,9 +4,7 @@ use strict;
 use warnings;
 
 use Config::Pit;
-use YAML;
 use WebService::Simple;
-use Encode;
 
 my $conf = pit_get("readitlater.com", require => {
     "APIKey" => "API key on readitlater.com",
@@ -24,4 +22,7 @@ my $service = WebService::Simple->new(
 );
 
 my $res = $service->get( { state => 'read' } );
-warn Dump $res->parse_response;
+my $json = $res->parse_response;
+my $read_num = keys $json->{list};
+print "Read $read_num items.\n";
+
