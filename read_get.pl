@@ -13,7 +13,7 @@ my $conf = pit_get("readitlater.com", require => {
 });
 
 my $service = WebService::Simple->new(
-    base_url => 'https://readitlaterlist.com/v2/get',
+    base_url => 'https://readitlaterlist.com/v2/',
     param => { apikey => "$conf->{APIKey}",
                username => "$conf->{username}",
                password => "$conf->{password}"
@@ -21,8 +21,10 @@ my $service = WebService::Simple->new(
     response_parser => 'JSON'
 );
 
-my $res = $service->get( { state => 'read' } );
+my $res = $service->get( "stats" );
 my $json = $res->parse_response;
-my $read_num = keys $json->{list};
-print "Read $read_num items.\n";
+
+print "count_list : $json->{count_list}\n";
+print "count_unread : $json->{count_unread}\n";
+print "count_read : $json->{count_read}\n";
 
